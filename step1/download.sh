@@ -3,6 +3,8 @@ module load sratoolkit/3.0.2
 
 #download sra file
 nohup prefetch --max-size 100G --option-file list.txt &
+#or (faster)
+awk '{print "nohup prefetch --max-size 100G " $0 " &"}' list.txt|bash
 
 #transfer into fastq
 for i in *sra; do fastq-dump ${i} --split-3 --gzip -O ./; done
