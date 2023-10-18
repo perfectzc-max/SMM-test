@@ -6,3 +6,8 @@ For variant calling, we developed a set of filters that were applied to each pos
 # step1. download data
 Data may be accessed using the following link: https://dataview.ncbi.nlm.nih.gov/object/PRJNA758911.  
 We use the SMM-seq raw data of ENU 50 sample and their control to build this pipeline.
+Download data and tansfer data into fastq file.
+# step2. nfcore pipline
+nf-core
+This pipline includ fastQC, trimgalore, mapping and sort.
+Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
