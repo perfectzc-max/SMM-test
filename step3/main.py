@@ -18,15 +18,15 @@ def main():
     umiExplorer = UMIExplorer()
     nParams = 0
     
-    nParams += 1
+    nParams += 1 # 1 Command umi or vc ect.
     if len(sys.argv) > nParams:
         Params.command = sys.argv[nParams] # Command
 
-    nParams += 1
+    nParams += 1 # 2 bam file
     if len(sys.argv) > nParams: 
         Params.bamSFile = sys.argv[nParams] # BAM-file
         
-    nParams += 1
+    nParams += 1 # 3 chr setting
     if len(sys.argv) > nParams: 
         Params.chrName = sys.argv[nParams]  # Chromosome
         if Params.chrName == "-": # No Chr 
@@ -42,12 +42,12 @@ def main():
         
         if (Params.command == Params.cmdTR): # BAM truncation
             nPosMin = None
-            nParams += 1
+            nParams += 1 # 4 起始位置
             if len(sys.argv) > nParams: 
                 nPosMin = int(sys.argv[nParams])
                 
             nPosMax = None
-            nParams += 1
+            nParams += 1 # 5 结束
             if len(sys.argv) > nParams: 
                 nPosMax = int(sys.argv[nParams])
 
@@ -55,18 +55,18 @@ def main():
             return
  
         if Params.command == Params.cmdVC:
+            nParams += 1  
+            if len(sys.argv) > nParams: 
+                Params.bamGFile = sys.argv[nParams] # 4 G-file
             nParams += 1
             if len(sys.argv) > nParams: 
-                Params.bamGFile = sys.argv[nParams] # G-file
+                Params.refFile = sys.argv[nParams]  # 5 Reference-file
             nParams += 1
             if len(sys.argv) > nParams: 
-                Params.refFile = sys.argv[nParams]  # Reference-file
+                Params.vcfAllFile = sys.argv[nParams]  # 6 VCF All input file
             nParams += 1
             if len(sys.argv) > nParams: 
-                Params.vcfAllFile = sys.argv[nParams]  # VCF All input file
-            nParams += 1
-            if len(sys.argv) > nParams: 
-                Params.vcfPersFile = sys.argv[nParams]  # VCF Person input file
+                Params.vcfPersFile = sys.argv[nParams]  # 7 VCF Person input file
             
     umiExplorer.umiAnalyze()
 
