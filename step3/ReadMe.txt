@@ -21,7 +21,10 @@ or the total size of the family ( >= minFamilyCount, if this parameter is positi
 File names and chromosomes can also be specified by parameters in Params.ini (see examples there). But these parameters can
 "overlapped" by command line parameters. You can set up to 6 of them, see the main.py file and comments there.
 
-
+#3.usage of each py file
+3.1 main.py
+main.py 用于读取运行参数，包括运行的任务如umi、vc，提供的文件地址。并调用umiExplorer里的方法。
+3.2 params.py
 
 
 
