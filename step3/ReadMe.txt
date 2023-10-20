@@ -23,8 +23,9 @@ File names and chromosomes can also be specified by parameters in Params.ini (se
 
 #3.usage of each py file
 3.1 main.py
-main.py 用于读取运行参数，包括运行的任务如umi、vc，提供的文件地址。并调用umiExplorer里的方法。
+main.py 用于读取输入的运行参数，包括运行的任务如umi、vc，提供的文件地址。并调用umiExplorer里的方法。
 3.2 params.py
+文件定义了各种所需的参数，包括文件、命令、算法处理的具体参数。
 
 
 
