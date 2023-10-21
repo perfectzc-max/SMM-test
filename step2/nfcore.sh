@@ -3,5 +3,5 @@ ls /cluster/home/qiangyu/smmdata/*_1*.gz|awk -F '[_/]' '{print $6  "\t" "NA" "\t
 #vi change the filename
 vi samplelist.tsv
 #run nf-core
-module load module load nfcore/sarek/2.7
+module load nfcore/sarek/2.7
 run_nfcore_haplotypecaller_vep.sh GRCh38 /cluster/home/qiangyu/smmdata/samplelist.tsv /cluster/home/qiangyu/bulkdata/nfcore/
