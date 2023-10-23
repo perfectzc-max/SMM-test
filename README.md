@@ -11,3 +11,5 @@ Download data and tansfer data into fastq file.
 nf-core
 This pipline includ fastQC, trimgalore, mapping and sort.
 Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
+In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata.So we perform Sarek pipeline for bulk data and another selfdefined pipeline for sample data.
+# step3. variants filter in main.py
