@@ -1,8 +1,18 @@
 #creat samplesheet like samplesheet.tsv 
 ls /cluster/home/qiangyu/smmdata/*_1*.gz|awk -F '[_/]' '{print $6  "\t" "NA" "\t" '0' "\t"  $6 "\t" '1' "\t" $0 "\t" $0 }'>samplelist.tsv
-#vi change the filename
+#vi change the filename to your real fastq filename
 vi samplelist.tsv
-#run nf-core
+
+#bulk
+tail samplelist.tsv -n 3 >sample.tsv
+#sample
+head -n 1 samplelist.tsv >bulk.tsv
+
+#run nf-core for bulk data
 module load nfcore/sarek/2.7
-mkdir nfcore
-run_nfcore_haplotypecaller_vep.sh GRCh38 /cluster/home/qiangyu/smmdata/samplelist.tsv /cluster/home/qiangyu/smmdata/nfcore/
+mkdir bulk
+run_nfcore_haplotypecaller_vep.sh GRCh38 /cluster/home/qiangyu/smmnfcore/bulk.tsv /cluster/home/qiangyu/smmnfcore/bulk
+
+#run without markdupulicate step for sample data
+mkdir sample
+sh run_nfcore_haplotypecaller_vep.sh GRCh38 /cluster/home/qiangyu/smmnfcore/sample.tsv /cluster/home/qiangyu/smmnfcore/sapmle/
