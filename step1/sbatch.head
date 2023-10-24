@@ -1,0 +1,6 @@
+#!/bin/bash
+#SBATCH --ntasks 1
+#SBATCH --cpus-per-task 10
+#SBATCH --job-name SCcaller
+#SBATCH --output SCcaller-%J.out
+#SBATCH --error SCcaller-%J.err
