@@ -50,8 +50,9 @@ export NXF_SINGULARITY_CACHEDIR=/cluster/apps/nf_core/singularity_imgs/sarek_v2.
 
 /cluster/apps/nf_core/NEXTFLOW/nextflow run /cluster/apps/nf_core/nf-core-sarek-2.7/workflow/ \
 --input $inputfile \
+--save_bam_mapped \
+--skip_markduplicates \
 --tools HaplotypeCaller,VEP \
---skip_tools markduplicates \
 --genome $refs \
 --igenomes_base /cluster/apps/Refs/references \
 -profile singularity \
