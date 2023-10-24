@@ -8,6 +8,7 @@ tail samplelist.tsv -n 3 >sample.tsv
 #sample
 head -n 1 samplelist.tsv >bulk.tsv
 
+#help：/cluster/apps/nf_core/nf-core-sarek-2.7/workflow/main.nf
 #run nf-core for bulk data
 module load nfcore/sarek/2.7
 mkdir bulk
