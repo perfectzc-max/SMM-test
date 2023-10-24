@@ -13,5 +13,5 @@ awk '{print "nohup fastq-dump --split-3 --gzip /cluster/home/qiangyu/smmdata/" $
 
 #submit sbatch job
 awk '{print "nohup fastq-dump --split-3 --gzip /cluster/home/qiangyu/smmdata/" $1 "/" $1 ".sra -O ./ &"}' list.txt> code.txt
-cat sbach.head code.sh >job.slurm
+cat sbatch.head code.sh >job.slurm
 sbatch job.slurm
