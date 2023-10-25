@@ -43,7 +43,7 @@ class Utils(object):
         return res        
 
     @staticmethod
-    def umiDistance(u1, u2):
+    def umiDistance(u1, u2): #记录两部分相应位置上不同的个数
         # print '0: ', u1, u2
         u1a, u1b = u1.split(Params.UMI_DELIM)
         u2a, u2b = u2.split(Params.UMI_DELIM)
@@ -64,7 +64,7 @@ class Utils(object):
         return res
 
     @staticmethod
-    def mostCommon(strList, nMinCount = 0, fMinPart = 0, sBesides = None):
+    def mostCommon(strList, nMinCount = 0, fMinPart = 0, sBesides = None): #记录一个字符列表中出现次数最多的那个的位置
         nStrs = len(strList)
         if not nStrs: return -1
          
