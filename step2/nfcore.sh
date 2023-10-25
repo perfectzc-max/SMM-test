@@ -16,6 +16,6 @@ run_nfcore_haplotypecaller_vep.sh GRCh38 /cluster/home/qiangyu/smmnfcore/bulk.ts
 
 #run without markdupulicate step for sample data
 mkdir sample
-sh run_nfcore_haplotypecaller_vep_nodup.sh GRCh38 /cluster/home/qiangyu/smmnfcore/sample.tsv /cluster/home/qiangyu/smmnfcore/sample
+sh run_nfcore_haplotypecaller_vep_nodup.sh GRCh38 /cluster/groups/Jan-Lab/qiangyu/smmnfcore/sample.tsv /cluster/groups/Jan-Lab/qiangyu/smmnfcore/sample
 
 #if not working, we need build our own pipeline
