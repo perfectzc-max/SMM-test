@@ -13,3 +13,11 @@ This pipline includ fastQC, trimgalore, mapping and sort.
 Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
 In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata. So we perform Sarek pipeline for bulk data and another custom pipeline for sample data.
 # step3. variants filter in main.py
+### 1.Only reads in proper pairs, with mapping quality not less than 60 and without secondary alignments, were taken in consideration. 
+
+### 2.Positions in SMM-seq data were considered as qualified for variant calling if it is covered by UMI family containing not less than seven reads from each strand and this position is covered at least 20× in regular sequencing data. 
+UMI family containing not less than seven reads from each strand
+covered at least 20× in regular sequencing data
+### 3.The qualified position was considered as a potential variant if all the reads within a given UMI family reported the same base at this position and this base was different from the corresponding reference genome. 
+all reads within a umi family reported same base
+### 4.Next, to filter out germline variants, we checked if a found potential variant is in a list of SNPs of this DNA sample as well as in dbSNP. 
