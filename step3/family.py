@@ -34,7 +34,7 @@ class Read(object):
         res = res or (self.origRead.is_reverse != read.is_reverse) and (self.origRead.is_read1 != read.is_read1)
         return res
     
-    def calcBaseList(self):
+    def calcBaseList(self): #处理测序数据中的不同部分（M、I、D、S、H等）
         resList = [] # List of string
         read = self.origRead
         
