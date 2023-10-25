@@ -25,7 +25,7 @@ class Read(object):
         self.myBrother = None # Overlapped read index
 
         if isPositive: self.sUMIMod = sUMI
-        else: self.sUMIMod = Utils.umiSwap(sUMI)
+        else: self.sUMIMod = Utils.umiSwap(sUMI) #是否交换UMI分隔前后内容
         
         self.baseList = None
             
