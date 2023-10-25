@@ -12,7 +12,7 @@ head -n 1 samplelist.tsv >bulk.tsv
 #run nf-core for bulk data
 module load nfcore/sarek/2.7
 mkdir bulk
-run_nfcore_haplotypecaller_vep.sh GRCh38 /cluster/home/qiangyu/smmnfcore/bulk.tsv /cluster/home/qiangyu/smmnfcore/bulk
+sh run_nfcore_haplotypecaller_vep_bam.sh GRCh38 /cluster/groups/Jan-Lab/qiangyu/smmnfcore/bulk.tsv /cluster/groups/Jan-Lab/qiangyu/smmnfcore/bulk
 
 #run without markdupulicate step for sample data
 mkdir sample
