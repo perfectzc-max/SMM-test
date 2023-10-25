@@ -29,6 +29,7 @@ main.py 用于读取输入的运行参数，包括运行的任务如umi、vc，�
 3.3 params.py
 文件定义了各种所需的参数，包括文件、命令、算法处理的具体参数。初始的参数文件params.ini里的参数值将会被调用。
 3.4 umiexplorer.py
+创建UMIExplorer这个个object。
 调用了family.py和utils.py文件里的各种方法。
 3.5 family.py
 调用了utils里的方法。
