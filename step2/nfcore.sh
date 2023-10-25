@@ -4,9 +4,9 @@ ls /cluster/home/qiangyu/smmdata/*_1*.gz|awk -F '[_/]' '{print $6  "\t" "NA" "\t
 vi samplelist.tsv
 
 #bulk
-tail samplelist.tsv -n 3 >sample.tsv
+tail samplelist.tsv -n 3 > sample.tsv
 #sample
-head -n 1 samplelist.tsv >bulk.tsv
+head -n 1 samplelist.tsv > bulk.tsv
 
 #help：/cluster/apps/nf_core/nf-core-sarek-2.7/workflow/main.nf
 #run nf-core for bulk data
