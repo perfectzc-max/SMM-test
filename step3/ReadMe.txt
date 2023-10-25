@@ -32,6 +32,7 @@ main.py 用于读取输入的运行参数，包括运行的任务如umi、vc，�
 调用了family.py和utils.py文件里的各种方法。
 3.5 family.py
 调用了utils里的方法。
+创建read、family两个object，并定义一系列方法。
 3.6 utils.py
 定义了一些基本方法，详见文件内注释。
 
