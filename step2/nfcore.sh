@@ -10,6 +10,7 @@ head -n 1 samplelist.tsv >bulk.tsv
 
 #help：/cluster/apps/nf_core/nf-core-sarek-2.7/workflow/main.nf
 #run nf-core for bulk data
+module load gatk/4.3.0
 module load nfcore/sarek/2.7
 mkdir bulk
 sh run_nfcore_haplotypecaller_vep_bam.sh GRCh38 /cluster/groups/Jan-Lab/qiangyu/smmnfcore/bulk.tsv /cluster/groups/Jan-Lab/qiangyu/smmnfcore/bulk
