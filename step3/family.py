@@ -29,7 +29,7 @@ class Read(object):
         
         self.baseList = None
             
-    def sameOrientation(self, read):
+    def sameOrientation(self, read): #两个read的方向是否相同
         res = (self.origRead.is_reverse == read.is_reverse) and (self.origRead.is_read1 == read.is_read1)
         res = res or (self.origRead.is_reverse != read.is_reverse) and (self.origRead.is_read1 != read.is_read1)
         return res
