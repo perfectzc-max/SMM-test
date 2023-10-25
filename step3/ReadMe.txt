@@ -28,7 +28,7 @@ main.py 用于读取输入的运行参数，包括运行的任务如umi、vc，�
 3.1.1 UMI
 命令：
 main.py umi bam/PBMM02_S.gatk.bam -
-输入一个样本的bam文件，和对应的CHROM
+输入一个样本的bam文件，和对应的CHROM，然后就会直接调用umiExplorer.umiAnalyze()
 
 3.2 params.ini
 记录了各种参数，在运行的时候可以在里面改好文件位置，以便后续运行。如果定义好了文件位置，就不用反复输入同样的参考序列地址。
