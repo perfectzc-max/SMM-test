@@ -19,7 +19,7 @@ class Utils(object):
         '''
 
     @staticmethod
-    def logOut(myStr, putTime = False):
+    def logOut(myStr, putTime = False): #记录日志
         logStr = myStr
         if putTime:
             logStr = str(datetime.datetime.now()) + ": " + logStr
@@ -27,17 +27,17 @@ class Utils(object):
         Utils.logFile.flush()
 
     @staticmethod
-    def posDistance(nStart1, nEnd1, nStart2, nEnd2):
+    def posDistance(nStart1, nEnd1, nStart2, nEnd2): #两段的最大距离
         return max(abs(nStart1 - nStart2), abs(nEnd1 - nEnd2))        
     
     @staticmethod
-    def segOverlap(nStart1, nEnd1, nStart2, nEnd2, minOver = 0):
+    def segOverlap(nStart1, nEnd1, nStart2, nEnd2, minOver = 0): #是否重叠
         isOverlap = nStart1 in range(nStart2, nEnd2 - minOver)
         isOverlap = isOverlap or (nStart2 in range(nStart1, nEnd1 - minOver))
         return isOverlap        
 
     @staticmethod
-    def umiSwap(umi):
+    def umiSwap(umi): #调换分隔符前后的内容
         uL, uR = umi.split(Params.UMI_DELIM)
         res = uR + Params.UMI_DELIM + uL
         return res        
