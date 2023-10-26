@@ -20,3 +20,19 @@ mkdir sample
 sh run_nfcore_haplotypecaller_vep_nodup.sh GRCh38 /cluster/groups/Jan-Lab/qiangyu/smmnfcore/sample.tsv /cluster/groups/Jan-Lab/qiangyu/smmnfcore/sample
 
 #if not working, we need build our own pipeline
+#install new sarek
+conda create --name nf-core python=3.11 nf-core nextflow  
+conda activate nf-core  
+#launch 
+nf-core launch --id 1698291230_a2e04202b487
+#download sarek
+nf-core download sarek -r 3.3.2 --outdir /cluster/home/qiangyu/nfcore/ -x none -s singularity -d -f -u copy
+
+#run bulk pipeline
+mkdir bulk
+sh run_nfcore_haplotypecaller_vep_bam.sh GRCh38 /cluster/groups/Jan-Lab/qiangyu/smmnfcore/bulk.tsv /cluster/groups/Jan-Lab/qiangyu/smmnfcore/bulk
+
+#run without markdupulicate step for sample data
+mkdir sample
+sh run_nfcore_haplotypecaller_vep_nodup.sh GRCh38 /cluster/groups/Jan-Lab/qiangyu/smmnfcore/sample.tsv /cluster/groups/Jan-Lab/qiangyu/smmnfcore/sample
+
