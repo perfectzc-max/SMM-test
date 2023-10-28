@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
 
 # Set environment variables
 export GATK_PATH=/path/to/gatk
