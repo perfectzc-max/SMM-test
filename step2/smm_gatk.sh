@@ -14,7 +14,8 @@ INPUT_R2=$3
 SAMPLE_ID=$(echo "$INPUT_R1" | sed 's/_R1.*//')
 OUT_DIR=$4
 
-echo $OUT_DIR $SAMPLE_ID
+echo "\n out:$OUT_DIR \n sample: $SAMPLE_ID"
+
 # Set environment variables
 conda activate trim
 module load gatk/4.3.0
