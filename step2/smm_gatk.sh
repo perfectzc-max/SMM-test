@@ -1,4 +1,12 @@
 #!/bin/bash
+#SBATCH -J smm #job name
+#SBATCH -p normal #parti t ion
+#SBATCH -n 1 #ntasks
+#SBATCH -c 10 #cpus per task
+#SBATCH -o smm-%J.out
+#SBATCH -e smm-%J.err
+#SBATCH -w node03
+
 mark=$1
 # Extract sample ID, pattern "id_R2.fastq.gz"
 INPUT_R1=$2
