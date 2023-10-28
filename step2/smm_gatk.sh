@@ -17,7 +17,7 @@ OUT_DIR=$5
 echo "\n out:$OUT_DIR \n sample: $SAMPLE_ID"
 
 # Set environment variables
-conda activate trim
+source activate trim
 module load gatk/4.3.0
 module load bwa/0.7.17
 # module load FastQC/0.11.9
