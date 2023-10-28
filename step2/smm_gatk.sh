@@ -4,24 +4,27 @@ mark=$1
 INPUT_R1=$2
 INPUT_R2=$3
 SAMPLE_ID=$(echo "$INPUT_R1" | sed 's/_R1.*//')
+OUT_DIR=$4
 
 # Set environment variables
-export GATK_PATH=/path/to/gatk
+module load gatk/4.3.0
+module load bwa/0.7.17
+export GATK_PATH=/cluster/apps/gatk/4.3.0/gatk
 export TRIM_GALORE_PATH=/path/to/trim_galore
 export FASTQC_PATH=/path/to/fastqc
 
 #reference dir
-export REFERENCE=reference.fasta
-export DBSNP=dbsnp.vcf
-export KNOWN_INDELS=Homo_sapiens_assembly38.known_indels.vcf.gz
-export MILLS_GOLD_INDELS=Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
-
-echo 
+export REFERENCE=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta
+export DBSNP=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_146.hg38.vcf.gz
+export KNOWN_INDELS=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/Homo_sapiens_assembly38.known_indels.vcf.gz
+export MILLS_GOLD_INDELS=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 
 # Set Java virtual machine options
 JAVA_OPTS="-Xmx7g"
 
+
 # Create directories for results
+cd $OUT_DIR
 mkdir -p fastqc_reports
 mkdir -p trimmed_data
 
