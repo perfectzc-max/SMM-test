@@ -49,6 +49,9 @@ $GATK_PATH IndexFeatureFile -I "$SAMPLE_ID.g.vcf"
 # 对gVCF文件进行基因型调用，生成VCF文件
 $GATK_PATH GenotypeGVCFs -R $REFERENCE -L $TARGET_BED --D $DBSNP -V "$SAMPLE_ID.g.vcf" -O "$SAMPLE_ID.vcf"
 
+# 合并变异记录
+$GATK_PATH GatherVcfs -I "$SAMPLE_ID.vcf" -O merged_variants.vcf
+
 # 运行 bcftools stats 生成统计信息
 bcftools stats merged_variants.vcf > merged_variants.bcf.tools.stats.out
 
@@ -65,8 +68,5 @@ qualimap --java-mem-size=128G bamqc -bam "$SAMPLE_ID.recalibrated.bam" --paint-c
 # 运行 VEP 进行变异注释
 vep -i merged_variants.vcf -o "$SAMPLE_ID_VEP.ann.vcf" --assembly GRCh38 --species homo_sapiens --offline --cache --cache_version 99 --dir_cache /.vep --everything --filter_common --fork 4 --format vcf --per_gene --stats_file "$SAMPLE_ID_VEP.summary.html" --total_length --vcf
 
-# 结果报告
-# 生成包含变异信息的结果报告，通常以VCF格式。此处根据需求和工具自定义。
-# 合并变异记录
-$GATK_PATH GatherVcfs -I "$SAMPLE_ID.vcf" -O merged_variants.vcf
+
 
