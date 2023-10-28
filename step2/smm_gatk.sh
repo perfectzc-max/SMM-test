@@ -21,10 +21,11 @@ module load anaconda3/2022.10
 source activate trim
 module load gatk/4.3.0
 module load bwa/0.7.17
-# module load FastQC/0.11.9
+module load FastQC/0.11.9
 export GATK_PATH=gatk
 export TRIM_GALORE_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/trim_galore
 export FASTQC_PATH=fastqc
+export CUTADAPT_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/cutadapt
 
 #reference dir
 export REFERENCE=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta
@@ -45,7 +46,7 @@ mkdir -p trimmed_data
 $FASTQC_PATH -o fastqc_reports "$INPUT_R1" "$INPUT_R2"
 
 # Run Trim Galore to remove low-quality bases and adapters
-$TRIM_GALORE_PATH --paired --output_dir trimmed_data "$INPUT_R1" "$INPUT_R2"
+$TRIM_GALORE_PATH --paired --output_dir trimmed_data "$INPUT_R1" "$INPUT_R2" --path_to_cutadapt $CUTADAPT_PATH
 
 # Data preprocessing: Mapping from Fastq to BAM
 bwa mem -K 100000000 -R "@RG\tID:1\tPU:1\tSM:$SAMPLE_ID\tLB:$SAMPLE_ID\tPL:illumina" -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_R1_val_1.fq" trimmed_data/"${SAMPLE_ID}_R2_val_2.fq" | samtools view -bS - > mapped.bam
