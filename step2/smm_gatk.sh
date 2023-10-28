@@ -7,11 +7,13 @@ SAMPLE_ID=$(echo "$INPUT_R1" | sed 's/_R1.*//')
 OUT_DIR=$4
 
 # Set environment variables
+conda activate trim
 module load gatk/4.3.0
 module load bwa/0.7.17
-export GATK_PATH=/cluster/apps/gatk/4.3.0/gatk
-export TRIM_GALORE_PATH=/path/to/trim_galore
-export FASTQC_PATH=/path/to/fastqc
+# module load FastQC/0.11.9
+export GATK_PATH=gatk
+export TRIM_GALORE_PATH=trim_galore
+export FASTQC_PATH=fastqc
 
 #reference dir
 export REFERENCE=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta
@@ -21,7 +23,6 @@ export MILLS_GOLD_INDELS=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/
 
 # Set Java virtual machine options
 JAVA_OPTS="-Xmx7g"
-
 
 # Create directories for results
 cd $OUT_DIR
