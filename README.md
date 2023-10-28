@@ -11,7 +11,7 @@ Download data and tansfer data into fastq file.
 nf-core
 This pipline includ fastQC, trimgalore, mapping and sort.
 Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
-In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata. So we perform Sarek pipeline for bulk data and another custom pipeline for sample data.
+In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata. So we perform Sarek pipeline for bulk data and another custom pipeline for sample data. /n
 process summary：
 Raw sequence reads were adapter and quality trimmed using Trim Galore (version 0.3.7), and aligned to human reference genome build 37 using BWA MEM (version 0.7.10)16. The initial mapped reads were indel realigned based on known indels from the 1000 Genomes Project (Phase I)17, and base quality score recalibrated based on known indels from the 1000 Genomes Project (Phase I) and SNVs from dbSNP (build 144) using GATK (version 3.4.46)8.
 # step3. variants filter in main.py
