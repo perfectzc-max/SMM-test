@@ -11,8 +11,8 @@ mark=$1
 # Extract sample ID, pattern "id_R2.fastq.gz"
 INPUT_R1=$2
 INPUT_R2=$3
-SAMPLE_ID=$(echo "$INPUT_R1" | sed 's/_R1.*//')
-OUT_DIR=$4
+SAMPLE_ID=$4
+OUT_DIR=$5
 
 echo "\n out:$OUT_DIR \n sample: $SAMPLE_ID"
 
