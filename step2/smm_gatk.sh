@@ -23,7 +23,7 @@ module load gatk/4.3.0
 module load bwa/0.7.17
 # module load FastQC/0.11.9
 export GATK_PATH=gatk
-export TRIM_GALORE_PATH=trim_galore
+export TRIM_GALORE_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/trim_galore
 export FASTQC_PATH=fastqc
 
 #reference dir
