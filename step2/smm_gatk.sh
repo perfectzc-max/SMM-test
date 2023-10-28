@@ -35,6 +35,7 @@ export MILLS_GOLD_INDELS=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/
 JAVA_OPTS="-Xmx7g"
 
 # Create directories for results
+mkdir -p $OUT_DIR
 cd $OUT_DIR
 mkdir -p fastqc_reports
 mkdir -p trimmed_data
