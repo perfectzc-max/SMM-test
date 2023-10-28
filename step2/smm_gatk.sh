@@ -1,5 +1,9 @@
 #!/bin/bash
-
+mark=$1
+# Extract sample ID, pattern "id_R2.fastq.gz"
+INPUT_R1=$2
+INPUT_R2=$3
+SAMPLE_ID=$(echo "$INPUT_R1" | sed 's/_R1.*//')
 
 # Set environment variables
 export GATK_PATH=/path/to/gatk
@@ -11,13 +15,10 @@ export TARGET_BED=chrY_9055175-9057608.bed
 export KNOWN_INDELS=Homo_sapiens_assembly38.known_indels.vcf.gz
 export MILLS_GOLD_INDELS=Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 
+echo 
+
 # Set Java virtual machine options
 JAVA_OPTS="-Xmx7g"
-
-# Extract sample ID
-INPUT_R1="id_R1.fastq.gz"
-INPUT_R2="id_R2.fastq.gz"
-SAMPLE_ID=$(echo "$INPUT_R1" | sed 's/_R1.*//')
 
 # Create directories for results
 mkdir -p fastqc_reports
