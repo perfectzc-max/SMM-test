@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#!/bin/bash
+
 # Set environment variables
 export GATK_PATH=/path/to/gatk
 export TRIM_GALORE_PATH=/path/to/trim_galore
@@ -34,8 +36,13 @@ bwa mem -K 100000000 -R "@RG\tID:1\tPU:1\tSM:$SAMPLE_ID\tLB:$SAMPLE_ID\tPL:illum
 # Create an index for the mapped BAM file
 samtools index mapped.bam
 
-# Mark duplicate sequences
-$GATK_PATH MarkDuplicates --INPUT mapped.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
+# Conditional execution of MarkDuplicates
+if [ "$mark" == "T" ]; then
+  $GATK_PATH MarkDuplicates --INPUT mapped.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
+else
+  # If mark is "F", skip the MarkDuplicates step
+  mv mapped.bam "$SAMPLE_ID.md.bam"
+fi
 
 # Base quality score recalibration (BQSR)
 $GATK_PATH BaseRecalibrator -R $REFERENCE -I "$SAMPLE_ID.md.bam" -O "$SAMPLE_ID.recal_data.table" --known-sites $DBSNP --known-sites $KNOWN_INDELS --known-sites $MILLS_GOLD_INDELS -L $TARGET_BED --verbosity INFO
