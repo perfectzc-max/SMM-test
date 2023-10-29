@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -J smm #job name
 #SBATCH -p normal #partition
-#SBATCH -3 #ntasks
+#SBATCH -n 3 #ntasks
 #SBATCH -c 15 #cpus per task
 #SBATCH -o smm-%J.out
 #SBATCH -e smm-%J.err
