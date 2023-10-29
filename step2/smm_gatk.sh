@@ -49,7 +49,7 @@ $FASTQC_PATH -o fastqc_reports "$INPUT_R1" "$INPUT_R2"
 $TRIM_GALORE_PATH --paired --output_dir trimmed_data "$INPUT_R1" "$INPUT_R2" --path_to_cutadapt $CUTADAPT_PATH
 
 # Data preprocessing: Mapping from Fastq to BAM
-$BWA_PATH mem -K 100000000 -R "@RG\tID:1\tPU:1\tSM:$SAMPLE_ID\tLB:$SAMPLE_ID\tPL:illumina" -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_R1_val_1.fq" trimmed_data/"${SAMPLE_ID}_R2_val_2.fq" | $SAMTOOLS_PATH view -bS - > mapped.bam
+$BWA_PATH mem -K 100000000 -R "@RG\tID:$SAMPLE_ID\tPU:$SAMPLE_ID\tSM:$SAMPLE_ID\tLB:$SAMPLE_ID\tPL:illumina" -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_R1_val_1.fq" trimmed_data/"${SAMPLE_ID}_R2_val_2.fq" | $SAMTOOLS_PATH view -bS - > mapped.bam
 
 # Create an index for the mapped BAM file
 $SAMTOOLS_PATH index mapped.bam
