@@ -28,10 +28,10 @@ export VCFTOOLS_PATH=/cluster/apps/vcftools/0.1.16/src/cpp/vcftools
 export QUALIMAP_PATH=
 export VEP_PATH=/cluster/apps/vep/ensembl-vep-release-109/vep
 #reference dir
-export REFERENCE=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta
-export DBSNP=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_146.hg38.vcf.gz
-export KNOWN_INDELS=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/Homo_sapiens_assembly38.known_indels.vcf.gz
-export MILLS_GOLD_INDELS=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+export REFERENCE=/cluster/groups/Jan-Lab/qiangyu/myref/Homo_sapiens_assembly38.fasta
+export DBSNP=/cluster/groups/Jan-Lab/qiangyu/myref/dbsnp_146.hg38.vcf.gz
+export KNOWN_INDELS=/cluster/groups/Jan-Lab/qiangyu/myref/Homo_sapiens_assembly38.known_indels.vcf.gz
+export MILLS_GOLD_INDELS=/cluster/groups/Jan-Lab/qiangyu/myref/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 
 # Set Java virtual machine options
 JAVA_OPTS="-Xmx7g"
