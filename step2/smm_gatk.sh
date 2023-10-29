@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -J smm #job name
-#SBATCH -p normal #parti t ion
-#SBATCH -n 1 #ntasks
-#SBATCH -c 10 #cpus per task
+#SBATCH -p normal #partition
+#SBATCH -3 #ntasks
+#SBATCH -c 15 #cpus per task
 #SBATCH -o smm-%J.out
 #SBATCH -e smm-%J.err
 #SBATCH -w node03
@@ -26,7 +26,12 @@ export GATK_PATH=/cluster/apps/gatk/4.3.0/gatk
 export TRIM_GALORE_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/trim_galore
 export FASTQC_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/fastqc
 export CUTADAPT_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/cutadapt
-
+export BWA_PATH=/cluster/apps/bwa/0.7.17/bwa
+export SAMTOOLS_PATH=/cluster/apps/samtools/1.17/bin/samtools
+export BCFTOOLS_PATH=/cluster/apps/bcftools/1.17/bin/bcftools
+export VCFTOOLS_PATH=/cluster/apps/vcftools/0.1.16/src/cpp/vcftools
+export QUALIMAP_PATH=
+export VEP_PATH=/cluster/apps/vep/ensembl-vep-release-109/vep
 #reference dir
 export REFERENCE=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta
 export DBSNP=/cluster/apps/Refs/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_146.hg38.vcf.gz
@@ -49,10 +54,10 @@ $FASTQC_PATH -o fastqc_reports "$INPUT_R1" "$INPUT_R2"
 $TRIM_GALORE_PATH --paired --output_dir trimmed_data "$INPUT_R1" "$INPUT_R2" --path_to_cutadapt $CUTADAPT_PATH
 
 # Data preprocessing: Mapping from Fastq to BAM
-bwa mem -K 100000000 -R "@RG\tID:1\tPU:1\tSM:$SAMPLE_ID\tLB:$SAMPLE_ID\tPL:illumina" -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_R1_val_1.fq" trimmed_data/"${SAMPLE_ID}_R2_val_2.fq" | samtools view -bS - > mapped.bam
+$BWA_PATH mem -K 100000000 -R "@RG\tID:1\tPU:1\tSM:$SAMPLE_ID\tLB:$SAMPLE_ID\tPL:illumina" -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_R1_val_1.fq" trimmed_data/"${SAMPLE_ID}_R2_val_2.fq" | $SAMTOOLS_PATH view -bS - > mapped.bam
 
 # Create an index for the mapped BAM file
-samtools index mapped.bam
+$SAMTOOLS_PATH index mapped.bam
 
 # Conditional execution of MarkDuplicates
 if [ "$mark" == "T" ]; then
@@ -81,17 +86,17 @@ $GATK_PATH GenotypeGVCFs -R $REFERENCE --D $DBSNP -V "$SAMPLE_ID.g.vcf" -O "$SAM
 $GATK_PATH GatherVcfs -I "$SAMPLE_ID.vcf" -O merged_variants.vcf
 
 # Run bcftools stats to generate statistics
-bcftools stats merged_variants.vcf > merged_variants.bcftools.stats.out
+$BCFTOOLS_PATH stats merged_variants.vcf > merged_variants.bcftools.stats.out
 
 # Use vcftools for statistics
-vcftools --gzvcf merged_variants.vcf --TsTv-by-count --out HaplotypeCaller_SRR15669403
-vcftools --gzvcf merged_variants.vcf --TsTv-by-qual --out HaplotypeCaller_SRR15669403
-vcftools --gzvcf merged_variants.vcf --FILTER-summary --out HaplotypeCaller_SRR15669403
+$VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-count --out HaplotypeCaller_SRR15669403
+$VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-qual --out HaplotypeCaller_SRR15669403
+$VCFTOOLS_PATH --gzvcf merged_variants.vcf --FILTER-summary --out HaplotypeCaller_SRR15669403
 
 # Perform quality assessment using Qualimap
-qualimap --java-mem-size=128G bamqc -bam "$SAMPLE_ID.recalibrated.bam" --paint-chromosome-limits --genome-gc-distr HUMAN -nt 16 --skip-duplicated --skip-dup-mode 0 -outdir "$SAMPLE_ID.recal" -outformat HTML
+$QUALIMAP_PATH --java-mem-size=128G bamqc -bam "$SAMPLE_ID.recalibrated.bam" --paint-chromosome-limits --genome-gc-distr HUMAN -nt 16 --skip-duplicated --skip-dup-mode 0 -outdir "$SAMPLE_ID.recal" -outformat HTML
 
 # Filter and annotate variants
 # This step typically requires additional tools such as GATK's VariantFiltration, Annovar, or others, depending on your specific needs.
 # Run VEP for variant annotation
-vep -i merged_variants.vcf -o "$SAMPLE_ID_VEP.ann.vcf" --assembly GRCh38 --species homo_sapiens --offline --cache --cache_version 99 --dir_cache /.vep --everything --filter_common --fork 4 --format vcf --per_gene --stats_file "$SAMPLE_ID_VEP.summary.html" --total_length --vcf
+$VEP_PATH -i merged_variants.vcf -o "$SAMPLE_ID_VEP.ann.vcf" --assembly GRCh38 --species homo_sapiens --offline --cache --cache_version 99 --dir_cache /.vep --everything --filter_common --fork 4 --format vcf --per_gene --stats_file "$SAMPLE_ID_VEP.summary.html" --total_length --vcf
