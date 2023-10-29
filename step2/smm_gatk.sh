@@ -17,6 +17,7 @@ OUT_DIR=$5
 echo "\n out:$OUT_DIR \n sample: $SAMPLE_ID"
 
 # Set environment variables
+module load samtools/1.17
 export GATK_PATH=/cluster/apps/gatk/4.3.0/gatk
 export TRIM_GALORE_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/trim_galore
 export FASTQC_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/fastqc
@@ -25,7 +26,6 @@ export BWA_PATH=/cluster/apps/bwa/0.7.17/bwa
 export SAMTOOLS_PATH=/cluster/apps/samtools/1.17/bin/samtools
 export BCFTOOLS_PATH=/cluster/apps/bcftools/1.17/bin/bcftools
 export VCFTOOLS_PATH=/cluster/apps/vcftools/0.1.16/src/cpp/vcftools
-export QUALIMAP_PATH=
 export VEP_PATH=/cluster/apps/vep/ensembl-vep-release-109/vep
 #reference dir
 export REFERENCE=/cluster/groups/Jan-Lab/qiangyu/myref/Homo_sapiens_assembly38.fasta
