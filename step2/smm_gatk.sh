@@ -22,9 +22,9 @@ source activate trim
 module load gatk/4.3.0
 module load bwa/0.7.17
 module load FastQC/0.11.9
-export GATK_PATH=gatk
+export GATK_PATH=/cluster/apps/gatk/4.3.0/gatk
 export TRIM_GALORE_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/trim_galore
-export FASTQC_PATH=fastqc
+export FASTQC_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/fastqc
 export CUTADAPT_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/cutadapt
 
 #reference dir
