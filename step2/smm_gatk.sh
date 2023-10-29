@@ -53,7 +53,7 @@ $TRIM_GALORE_PATH --paired --quality 20 --length 20 --gzip --output_dir trimmed_
 $BWA_PATH mem -K 100000000 -R '@RG\tID:"$SAMPLE_ID"\tPL:"$SAMPLE_ID"\tPU:0\tLB:"$SAMPLE_ID"\tSM:"$SAMPLE_ID"' -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_1_val_1.fq.gz" trimmed_data/"${SAMPLE_ID}_2_val_2.fq.gz" | $SAMTOOLS_PATH view -bS - > mapped.bam
 
 # Create an index for the mapped BAM file
-$SAMTOOLS_PATH $SAMTOOLS_PATH sort -@ 10 -m 4G -o sorted.bam mapped.bam
+$SAMTOOLS_PATH sort -@ 10 -m 4G -o sorted.bam mapped.bam
 $SAMTOOLS_PATH index sorted.bam
 
 # Conditional execution of MarkDuplicates
