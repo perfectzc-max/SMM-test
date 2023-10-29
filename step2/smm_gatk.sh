@@ -53,14 +53,15 @@ $TRIM_GALORE_PATH --paired --quality 20 --length 20 --gzip --output_dir trimmed_
 $BWA_PATH mem -K 100000000 -R '@RG\tID:"$SAMPLE_ID"\tPL:"$SAMPLE_ID"\tPU:0\tLB:"$SAMPLE_ID"\tSM:"$SAMPLE_ID"' -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_1_val_1.fq.gz" trimmed_data/"${SAMPLE_ID}_2_val_2.fq.gz" | $SAMTOOLS_PATH view -bS - > mapped.bam
 
 # Create an index for the mapped BAM file
-$SAMTOOLS_PATH index mapped.bam
+$SAMTOOLS_PATH $SAMTOOLS_PATH sort -@ 10 -m 4G -o sorted.bam mapped.bam
+$SAMTOOLS_PATH index sorted.bam
 
 # Conditional execution of MarkDuplicates
 if [ "$mark" == "T" ]; then
-  $GATK_PATH MarkDuplicates --INPUT mapped.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
+  $GATK_PATH MarkDuplicates --INPUT sorted.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
 else
   # If mark is "F", skip the MarkDuplicates step
-  mv mapped.bam "$SAMPLE_ID.md.bam"
+  mv sorted.bam "$SAMPLE_ID.md.bam"
 fi
 
 # Base quality score recalibration (BQSR)
