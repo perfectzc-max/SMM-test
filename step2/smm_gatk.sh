@@ -47,7 +47,7 @@ mkdir -p trimmed_data
 $FASTQC_PATH -o fastqc_reports "$INPUT_R1" "$INPUT_R2"
 
 # Run Trim Galore to remove low-quality bases and adapters
-$TRIM_GALORE_PATH --paired --output_dir trimmed_data "$INPUT_R1" "$INPUT_R2" --path_to_cutadapt $CUTADAPT_PATH
+$TRIM_GALORE_PATH --paired --quality 20 --length 20 --gzip --output_dir trimmed_data "$INPUT_R1" "$INPUT_R2" --path_to_cutadapt $CUTADAPT_PATH
 
 # Data preprocessing: Mapping from Fastq to BAM
 $BWA_PATH mem -K 100000000 -R '@RG\tID:"$SAMPLE_ID"\tPL:"$SAMPLE_ID"\tPU:0\tLB:"$SAMPLE_ID"\tSM:"$SAMPLE_ID"' -t 16 -M $REFERENCE trimmed_data/"${SAMPLE_ID}_1_val_1.fq.gz" trimmed_data/"${SAMPLE_ID}_2_val_2.fq.gz" | $SAMTOOLS_PATH view -bS - > mapped.bam
