@@ -7,7 +7,7 @@
 #SBATCH -e smm-%J.err
 #SBATCH -w node03
 
-mark=$1
+BULK=$1
 # Extract sample ID, pattern "id_R2.fastq.gz"
 INPUT_R1=$2
 INPUT_R2=$3
@@ -57,7 +57,7 @@ $SAMTOOLS_PATH sort -@ 10 -m 4G -o sorted.bam mapped.bam
 $SAMTOOLS_PATH index sorted.bam
 
 # Conditional execution of MarkDuplicates
-if [ "$mark" == "T" ]; then
+if [ "$BULK" == "T" ]; then
   $GATK_PATH MarkDuplicates --INPUT sorted.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
 else
   # If mark is "F", skip the MarkDuplicates step
@@ -70,25 +70,26 @@ $GATK_PATH BaseRecalibrator -R $REFERENCE -I "$SAMPLE_ID.md.bam" -O "$SAMPLE_ID.
 # Apply BQSR, including optimized Java virtual machine options
 $GATK_PATH ApplyBQSR -R $REFERENCE --input "$SAMPLE_ID.md.bam" --output "$SAMPLE_ID.recalibrated.bam"  --bqsr-recal-file "$SAMPLE_ID.recal_data.table"
 
+if [ "$BULK" == "T" ]; then
 # Variant calling (HaplotypeCaller)
-$GATK_PATH HaplotypeCaller -R $REFERENCE -I "$SAMPLE_ID.recalibrated.bam" -O "$SAMPLE_ID.g.vcf"
+ $GATK_PATH HaplotypeCaller -R $REFERENCE -I "$SAMPLE_ID.recalibrated.bam" -O "$SAMPLE_ID.g.vcf"
 
 # Index the gVCF file
-$GATK_PATH IndexFeatureFile -I "$SAMPLE_ID.g.vcf"
+ $GATK_PATH IndexFeatureFile -I "$SAMPLE_ID.g.vcf"
 
 # Genotype gVCF files to create a VCF file
-$GATK_PATH GenotypeGVCFs -R $REFERENCE --D $DBSNP -V "$SAMPLE_ID.g.vcf" -O "$SAMPLE_ID.vcf"
+ $GATK_PATH GenotypeGVCFs -R $REFERENCE --D $DBSNP -V "$SAMPLE_ID.g.vcf" -O "$SAMPLE_ID.vcf"
 
 # Merge variant records
-$GATK_PATH GatherVcfs -I "$SAMPLE_ID.vcf" -O merged_variants.vcf
+ $GATK_PATH GatherVcfs -I "$SAMPLE_ID.vcf" -O merged_variants.vcf
 
 # Run bcftools stats to generate statistics
-$BCFTOOLS_PATH stats merged_variants.vcf > merged_variants.bcftools.stats.out
+ $BCFTOOLS_PATH stats merged_variants.vcf > merged_variants.bcftools.stats.out
 
 # Use vcftools for statistics
-$VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-count --out HaplotypeCaller_SRR15669403
-$VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-qual --out HaplotypeCaller_SRR15669403
-$VCFTOOLS_PATH --gzvcf merged_variants.vcf --FILTER-summary --out HaplotypeCaller_SRR15669403
+ $VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-count --out HaplotypeCaller_SRR15669403
+ $VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-qual --out HaplotypeCaller_SRR15669403
+ $VCFTOOLS_PATH --gzvcf merged_variants.vcf --FILTER-summary --out HaplotypeCaller_SRR15669403
 
 # Perform quality assessment using Qualimap
 # $QUALIMAP_PATH --java-mem-size=128G bamqc -bam "$SAMPLE_ID.recalibrated.bam" --paint-chromosome-limits --genome-gc-distr HUMAN -nt 16 --skip-duplicated --skip-dup-mode 0 -outdir "$SAMPLE_ID.recal" -outformat HTML
@@ -96,4 +97,8 @@ $VCFTOOLS_PATH --gzvcf merged_variants.vcf --FILTER-summary --out HaplotypeCalle
 # Filter and annotate variants
 # This step typically requires additional tools such as GATK's VariantFiltration, Annovar, or others, depending on your specific needs.
 # Run VEP for variant annotation
-$VEP_PATH -i merged_variants.vcf -o "$SAMPLE_ID_VEP.ann.vcf" --assembly GRCh38 --species homo_sapiens --offline --cache --cache_version 99 --dir_cache /.vep --everything --filter_common --fork 4 --format vcf --per_gene --stats_file "$SAMPLE_ID_VEP.summary.html" --total_length --vcf
+ $VEP_PATH -i merged_variants.vcf -o "$SAMPLE_ID_VEP.ann.vcf" --assembly GRCh38 --species homo_sapiens --offline --cache --cache_version 99 --dir_cache /.vep --everything --filter_common --fork 4 --format vcf --per_gene --stats_file "$SAMPLE_ID_VEP.summary.html" --total_length --vcf
+ echo "Bulk sample finished."
+else
+ echo "Sample pipeline finished."
+fi
