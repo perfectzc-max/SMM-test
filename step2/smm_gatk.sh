@@ -19,6 +19,8 @@ echo -e "\nout:$OUT_DIR \nsample: $SAMPLE_ID \n BULK SAMPLE:$BULK"
 # Set environment variables
 module load samtools/1.17
 module load gatk/4.3.0
+module load anaconda3/2022.10
+source activate trim
 export GATK_PATH=/cluster/apps/gatk/4.3.0/gatk
 export TRIM_GALORE_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/trim_galore
 export FASTQC_PATH=/cluster/home/qiangyu/.conda/envs/nf-core/envs/trim/bin/fastqc
