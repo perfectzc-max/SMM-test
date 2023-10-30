@@ -14,7 +14,7 @@ INPUT_R2=$3
 SAMPLE_ID=$4
 OUT_DIR=$5
 
-echo "\nout:$OUT_DIR \nsample: $SAMPLE_ID"
+echo -e "\nout:$OUT_DIR \nsample: $SAMPLE_ID \n BULK SAMPLE:$BULK"
 
 # Set environment variables
 module load samtools/1.17
