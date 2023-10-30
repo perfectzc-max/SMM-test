@@ -14,7 +14,7 @@ INPUT_R2=$3
 SAMPLE_ID=$4
 OUT_DIR=$5
 
-echo "\n out:$OUT_DIR \n sample: $SAMPLE_ID"
+echo "\nout:$OUT_DIR \nsample: $SAMPLE_ID"
 
 # Set environment variables
 module load samtools/1.17
