@@ -61,7 +61,7 @@ if [ "$mark" == "T" ]; then
   $GATK_PATH MarkDuplicates --INPUT sorted.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
 else
   # If mark is "F", skip the MarkDuplicates step
-  mv sorted.bam "$SAMPLE_ID.md.bam"
+  ln -s sorted.bam "$SAMPLE_ID.md.bam"
 fi
 
 # Base quality score recalibration (BQSR)
