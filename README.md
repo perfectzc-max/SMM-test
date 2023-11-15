@@ -12,11 +12,16 @@ We use the SMM-seq raw data of ENU 50 sample and their control to build this pip
 sbatch umi_trimmer.bash FileName_[1.fastq.gz] Prefix_len UMI_len Postfix_len
 ```
 
-# step2. nfcore pipline
-### nf-core
+# step2. Alignment and quality trimming
+### nf-core (unavailable)
+### our gatk pipeline
 This pipline includ fastQC, trimgalore, mapping and sort.
 Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
 In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata. So we perform Sarek pipeline for bulk data and another custom pipeline for sample data.
+```
+sbatch smm_gatk.batch <?bulksample> <path to R1.fastq> <path to R2.fastq> <path to R1.fastq> <sample ID, suffix of fast1 file> <path to outdir>
+```
+
 
 ### process summary：
 Raw sequence reads were adapter and quality trimmed using Trim Galore (version 0.3.7), and aligned to human reference genome build 37 using BWA MEM (version 0.7.10)16. The initial mapped reads were indel realigned based on known indels from the 1000 Genomes Project (Phase I)17, and base quality score recalibrated based on known indels from the 1000 Genomes Project (Phase I) and SNVs from dbSNP (build 144) using GATK (version 3.4.46)8.
