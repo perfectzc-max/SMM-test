@@ -6,7 +6,8 @@ For variant calling, we developed a set of filters that were applied to each pos
 # step1. download data
 Data may be accessed using the following link: https://dataview.ncbi.nlm.nih.gov/object/PRJNA758911.  
 We use the SMM-seq raw data of ENU 50 sample and their control to build this pipeline.
-Download data and tansfer data into fastq file.
+1.Download data and tansfer data into fastq file.(download.sh)
+2.trim UMI from reads in fastq.gz file and add UMI into the reads identifier line of fastq.gz file.(UMI.sh)
 # step2. nfcore pipline
 ### nf-core
 This pipline includ fastQC, trimgalore, mapping and sort.
