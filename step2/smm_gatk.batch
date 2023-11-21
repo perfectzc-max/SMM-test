@@ -5,7 +5,6 @@
 #SBATCH -c 15 #cpus per task
 #SBATCH -o smm-%J.out
 #SBATCH -e smm-%J.err
-#SBATCH -w node03
 
 BULK=$1
 # Extract sample ID, pattern "id_R2.fastq.gz"
