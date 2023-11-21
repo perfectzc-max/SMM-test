@@ -6,12 +6,11 @@
 #SBATCH -o smm-%J.out
 #SBATCH -e smm-%J.err
 
-BULK=$1
 # Extract sample ID, pattern "id_R2.fastq.gz"
-INPUT_R1=$2
-INPUT_R2=$3
-SAMPLE_ID=$4
-OUT_DIR=$5
+INPUT_R1=$1
+INPUT_R2=$2
+SAMPLE_ID=$3
+OUT_DIR=$4
 
 echo -e "\nout:$OUT_DIR \nsample: $SAMPLE_ID \n BULK SAMPLE:$BULK"
 
