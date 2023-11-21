@@ -117,84 +117,24 @@ REFERENCE=$REFERENCE
 echo "====="; echo "5th picard end on"; date
 
 # 6. gatk
+echo "5th gatk start on"; date; echo "====="
 # 6.1 indel realigner
-$GATK_PATH RealignerTargetCreator \
--R $refgenome \
--o $samplename-pe.rd.fixed.sorted.reorder.bam.intervals \
--I $samplename-pe.rd.fixed.sorted.reorder.bam \
--known $refvar/1000G_phase1.indels.b37.vcf \
--known $refvar/Mills_and_1000G_gold_standard.indels.b37.vcf
-
-$GATK_PATH IndelRealigner \
--R $REFERENCE \
--I $samplename-pe.rd.fixed.sorted.reorder.bam \
--targetIntervals $samplename-pe.rd.fixed.sorted.reorder.bam.intervals \
--known $refvar/1000G_phase1.indels.b37.vcf \
--known $refvar/Mills_and_1000G_gold_standard.indels.b37.vcf \
--o $samplename-pe.rd.fixed.sorted.reorder.realign.bam
-
 # 6.2 SNP recalibration
+# Base quality score recalibration (BQSR)
 $GATK_PATH BaseRecalibrator \
 -R $REFERENCE \
--I $samplename-pe.rd.fixed.sorted.reorder.realign.bam \
---known-sites $DBSNP --known-sites $KNOWN_INDELS --known-sites $MILLS_GOLD_INDELS --verbosity INFO \
--o $samplename-pe.rd.fixed.sorted.reorder.realign.bam.recal.grp
-
-$GATK_PATH PrintReads \
--R $refgenome \
--I $samplename-pe.rd.fixed.sorted.reorder.realign.bam \
--BQSR $samplename-pe.rd.fixed.sorted.reorder.realign.bam.recal.grp \
--o $samplename-pe.rd.fixed.sorted.reorder.realign.recal.bam
-
-
-ln -s $samplename-pe.rd.fixed.sorted.reorder.realign.recal.bam $samplename.gatk.bam
-samtools index $samplename.gatk.bam
-
-echo "DNA mapping for human end on"; date; echo "====="
-
-# Conditional execution of MarkDuplicates
-if [ "$BULK" == "T" ]; then
-  $GATK_PATH MarkDuplicates --INPUT sorted.bam --METRICS_FILE "$SAMPLE_ID.bam.metrics" --TMP_DIR . --ASSUME_SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT "$SAMPLE_ID.md.bam"
-else
-  # If mark is "F", skip the MarkDuplicates step
-  ln -s sorted.bam "$SAMPLE_ID.md.bam"
-fi
-
-# Base quality score recalibration (BQSR)
-$GATK_PATH BaseRecalibrator -R $REFERENCE -I "$SAMPLE_ID.md.bam" -O "$SAMPLE_ID.recal_data.table" --known-sites $DBSNP --known-sites $KNOWN_INDELS --known-sites $MILLS_GOLD_INDELS --verbosity INFO
+-I $SAMPLE_ID-pe.rd.fixed.sorted.reorder.realign.bam \
+-O $SAMPLE_ID.recal_data.table \
+--known-sites $DBSNP --known-sites $KNOWN_INDELS --known-sites $MILLS_GOLD_INDELS --verbosity INFO
 
 # Apply BQSR, including optimized Java virtual machine options
-$GATK_PATH ApplyBQSR -R $REFERENCE --input "$SAMPLE_ID.md.bam" --output "$SAMPLE_ID.recalibrated.bam"  --bqsr-recal-file "$SAMPLE_ID.recal_data.table"
+$GATK_PATH ApplyBQSR \
+-R $REFERENCE \
+--input $SAMPLE_ID-pe.rd.fixed.sorted.reorder.realign.bam \
+--output $SAMPLE_ID-pe.rd.fixed.sorted.reorder.realign.recal.bam \
+--bqsr-recal-file $SAMPLE_ID.recal_data.table
 
-if [ "$BULK" == "T" ]; then
-# Variant calling (HaplotypeCaller)
- $GATK_PATH HaplotypeCaller -R $REFERENCE -I "$SAMPLE_ID.recalibrated.bam" -O "$SAMPLE_ID.g.vcf"
+ln -s $SAMPLE_ID-pe.rd.fixed.sorted.reorder.realign.recal.bam $SAMPLE_ID.gatk.bam
+samtools index $SAMPLE_ID.gatk.bam
 
-# Index the gVCF file
- $GATK_PATH IndexFeatureFile -I "$SAMPLE_ID.g.vcf"
-
-# Genotype gVCF files to create a VCF file
- $GATK_PATH GenotypeGVCFs -R $REFERENCE --D $DBSNP -V "$SAMPLE_ID.g.vcf" -O "$SAMPLE_ID.vcf"
-
-# Merge variant records
- $GATK_PATH GatherVcfs -I "$SAMPLE_ID.vcf" -O merged_variants.vcf
-
-# Run bcftools stats to generate statistics
- $BCFTOOLS_PATH stats merged_variants.vcf > merged_variants.bcftools.stats.out
-
-# Use vcftools for statistics
- $VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-count --out HaplotypeCaller_SRR15669403
- $VCFTOOLS_PATH --gzvcf merged_variants.vcf --TsTv-by-qual --out HaplotypeCaller_SRR15669403
- $VCFTOOLS_PATH --gzvcf merged_variants.vcf --FILTER-summary --out HaplotypeCaller_SRR15669403
-
-# Perform quality assessment using Qualimap
-# $QUALIMAP_PATH --java-mem-size=128G bamqc -bam "$SAMPLE_ID.recalibrated.bam" --paint-chromosome-limits --genome-gc-distr HUMAN -nt 16 --skip-duplicated --skip-dup-mode 0 -outdir "$SAMPLE_ID.recal" -outformat HTML
-
-# Filter and annotate variants
-# This step typically requires additional tools such as GATK's VariantFiltration, Annovar, or others, depending on your specific needs.
-# Run VEP for variant annotation
- $VEP_PATH -i merged_variants.vcf -o "$SAMPLE_ID_VEP.ann.vcf" --assembly GRCh38 --species homo_sapiens --offline --cache --cache_version 99 --dir_cache /.vep --everything --filter_common --fork 4 --format vcf --per_gene --stats_file "$SAMPLE_ID_VEP.summary.html" --total_length --vcf
- echo "Bulk sample finished."
-else
- echo "Sample pipeline finished."
-fi
+echo "DNA mapping for human end on"; date; echo "====="
