@@ -19,7 +19,7 @@ This pipline includ fastQC, trimgalore, mapping and sort.
 Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
 In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata. So we perform Sarek pipeline for bulk data and another custom pipeline for sample data.
 ```
-sbatch smm_gatk.batch <path to R1.fastq> <path to R2.fastq> <path to R1.fastq> <sample ID, suffix of fast1 file> <path to outdir>
+sbatch smm_gatk.batch <path to R1.fastq> <path to R2.fastq> <sample ID, suffix of fast1 file> <path to outdir>
 ```
 
 ### process summary：
