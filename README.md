@@ -8,7 +8,7 @@ Data may be accessed using the following link: https://dataview.ncbi.nlm.nih.gov
 We use the SMM-seq raw data of ENU 50 sample and their control to build this pipeline.
 ### 1.Download data and tansfer data into fastq file.(download.sh)
 ### 2.Trim UMIs from reads in FASTQ files and make new ones with UMIs in the read names. Paired reads receive the same UMI (UMI1+UMI2). Automatically process files with read 1 and read 2.
-(variants calling)
+(That’s “0 6 3” if you use adapters from the latest protocol and AluI digestion.)
 ```
 sbatch umi_trimmer.bash FileName_[1.fastq.gz] Prefix_len UMI_len Postfix_len
 ```
