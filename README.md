@@ -33,13 +33,24 @@ Raw sequence reads were adapter and quality trimmed using Trim Galore (version 0
 bash umi_qc.sh
 ```
 
-
 ## variants calling
 ### 1.Only reads in proper pairs, with mapping quality not less than 60 and without secondary alignments, were taken in consideration. 
-
 ### 2.Positions in SMM-seq data were considered as qualified for variant calling if it is covered by UMI family containing not less than seven reads from each strand and this position is covered at least 20× in regular sequencing data. 
 UMI family containing not less than seven reads from each strand
 covered at least 20× in regular sequencing data
 ### 3.The qualified position was considered as a potential variant if all the reads within a given UMI family reported the same base at this position and this base was different from the corresponding reference genome. 
 all reads within a umi family reported same base
 ### 4.Next, to filter out germline variants, we checked if a found potential variant is in a list of SNPs of this DNA sample as well as in dbSNP. 
+```
+# Make a file where all the chromosomes relevant to this sample are listed.  Usually it is a head (N lines) of reference file index (Reference.fai). The path to this file should be in SMM_env.bash
+# Remove duplicates in G-file and call germline variants using Haplotype caller Copy SMM_env.bash, SMM_launcher.py, SMM_ht.bash into working directory. Make a text file with pairs: S-file.bam G-file.bam
+python SMM_launcher.py germline PairsFileName
+# Variant calling
+python SMM_launcher.py vc PairsFileName
+# Merge chromosome-specific VCF files
+python SMM_launcher.py merge PairsFileName
+# Get statistics
+python SMM_launcher.py stat PairsFileName
+
+```
+
