@@ -53,4 +53,9 @@ python SMM_launcher.py merge PairsFileName
 python SMM_launcher.py stat PairsFileName
 
 ```
-
+# step0. Envrioment setting
+```
+python2.7
+pysam
+biopython
+```
