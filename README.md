@@ -65,6 +65,6 @@ python SMM_launcher.py stat PairsFileName
 # step0. Envrioment setting
 ```
 python2.7
-pysam
-biopython
+pysam 0.9.1
+biopython 1.76
 ```
