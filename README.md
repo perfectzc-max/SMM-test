@@ -7,13 +7,18 @@ For variant calling, we developed a set of filters that were applied to each pos
 Data may be accessed using the following link: https://dataview.ncbi.nlm.nih.gov/object/PRJNA758911.  
 We use the SMM-seq raw data of ENU 50 sample and their control to build this pipeline.
 ### 1.Download data and tansfer data into fastq file.(download.sh)
-### 2.Trim UMIs from reads in FASTQ files and make new ones with UMIs in the read names. Paired reads receive the same UMI (UMI1+UMI2). Automatically process files with read 1 and read 2.
-(That’s “0 6 3” if you use adapters from the latest protocol and AluI digestion.)
+### 2.Prepare file 
 ```
 mkdir -p 1_umitrim
 cd 1_umitrim
 #make a soft link for your fastq data
 ln -s Fastq_path ./Fastq_file
+#awk command to handle a batch of fastq file
+ls /path/*gz |awk -F '/' '{print "ln -s " $0 " ./" $3}'|bash
+```
+### 2.Trim UMIs from reads in FASTQ files and make new ones with UMIs in the read names. Paired reads receive the same UMI (UMI1+UMI2). Automatically process files with read 1 and read 2.
+(That’s “0 6 3” if you use adapters from the latest protocol and AluI digestion.)
+```
 sbatch umi_trimmer.bash FileName_[R1.fastq.gz] Prefix_len UMI_len Postfix_len
 ```
 
