@@ -10,6 +10,10 @@ We use the SMM-seq raw data of ENU 50 sample and their control to build this pip
 ### 2.Trim UMIs from reads in FASTQ files and make new ones with UMIs in the read names. Paired reads receive the same UMI (UMI1+UMI2). Automatically process files with read 1 and read 2.
 (That’s “0 6 3” if you use adapters from the latest protocol and AluI digestion.)
 ```
+mkdir -p 1_umitrim
+cd 1_umitrim
+#make a soft link for your fastq data
+ln -s Fastq_path ./Fastq_file
 sbatch umi_trimmer.bash FileName_[R1.fastq.gz] Prefix_len UMI_len Postfix_len
 ```
 
