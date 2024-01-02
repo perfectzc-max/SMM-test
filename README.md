@@ -39,7 +39,13 @@ Raw sequence reads were adapter and quality trimmed using Trim Galore (version 0
 # step3. UMI summary and variants calling
 ## UMI summary
 ```
-bash umi_qc.sh
+### 1.umi count for S-lib
+umi_extractor.bash bamdir S-file.bam chr1
+python SMM_qc.py umi S-file.1.bam.umi
+
+### 2.pileup sum for G_lib
+sbatch SMM_pileup.bash bamdir G-file.bam
+python SMM_qc.py plp G-file.mpu
 ```
 
 ## variants calling
