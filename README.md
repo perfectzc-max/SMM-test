@@ -20,6 +20,8 @@ ls /path/*gz |awk -F '/' '{print "ln -s " $0 " ./" $3}'|bash
 (That’s “0 6 3” if you use adapters from the latest protocol and AluI digestion.)
 ```
 sbatch umi_trimmer.bash FileName_[R1.fastq.gz] Prefix_len UMI_len Postfix_len
+#awk command to handle a batch of fastq file
+ls /path/*R1.fq.gz |awk -F '/' '{print "sbatch umi_trimmer.bash ./" $3 " 0 6 3"}'|bash
 ```
 
 # step2. Alignment and quality trimming
