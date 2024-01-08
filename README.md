@@ -69,6 +69,7 @@ all reads within a umi family reported same base
 # Make a file where all the chromosomes relevant to this sample are listed.  Usually it is a head (N lines) of reference file index (Reference.fai). The path to this file should be in SMM_env.bash
 #Make a text file with pairs: S-file.bam G-file.bam
 ls /path/*gatk.bam* |awk -F '/' '{print "ln -s " $0 " ./" $3}'
+ls *gatk.bam 
 # Remove duplicates in G-file and call germline variants using Haplotype caller Copy SMM_env.bash, SMM_launcher.py, SMM_ht.bash into working directory. 
 python SMM_launcher.py germline PairsFileName
 # Variant calling
