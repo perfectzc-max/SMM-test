@@ -47,7 +47,7 @@ Raw sequence reads were adapter and quality trimmed using Trim Galore (version 0
 umi_extractor.bash bamdir S-file.bam chr1
 python SMM_qc.py umi S-file.1.bam.umi
 #awk command to handle a batch of file
-ls /path/*gatk.bam |awk  '{print "umi_extractor.bash ../3_ _callvar" $0 " chr1"}'
+ls /path/*gatk.bam |awk  '{print "umi_extractor.bash ../3_callvar" $0 " chr1"}'
 ### 2.pileup sum for G_lib
 sbatch SMM_pileup.bash bamdir G-file.bam
 python SMM_qc.py plp G-file.mpu
