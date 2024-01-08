@@ -32,8 +32,8 @@ Use hapllotype caller call germline mutation, also preformed BQSR, bamQC.
 In this step we omit the MarkDuplicate step in GATK pipeline for sample raw data, but still run it in bulkdata. So we perform Sarek pipeline for bulk data and another custom pipeline for sample data.
 ```
 sbatch smm_gatk.batch <path to R1.fastq> <path to R2.fastq> <sample ID, suffix of fast1 file> <path to outdir>
-#awk command to handle a batch of fastq file
-ls /cluster/groups/Jan-Lab/qiangyu/umismm/1_umitrim/P*umi_1.fastq.gz |awk -F '[/_]' '{print "sbatch smm_gatk.batch " $0 " " $0 " "$9 " "$PWD"/" $9}'
+#awk command to handle a batch of file
+ls /cluster/groups/Jan-Lab/qiangyu/umismm/1_umitrim/P*umi_1.fastq.gz |awk -F '[/_]' '{print "sbatch smm_gatk.batch " $0 " " $0 " "$9 " "/path/" $9}'
 ```
 
 ### process summary：
@@ -46,7 +46,8 @@ Raw sequence reads were adapter and quality trimmed using Trim Galore (version 0
 ### 1.umi count for S-lib
 umi_extractor.bash bamdir S-file.bam chr1
 python SMM_qc.py umi S-file.1.bam.umi
-
+#awk command to handle a batch of file
+ls /path/*gatk.bam |awk  '{print "umi_extractor.bash ../3_ _callvar" $0 " chr1"}'
 ### 2.pileup sum for G_lib
 sbatch SMM_pileup.bash bamdir G-file.bam
 python SMM_qc.py plp G-file.mpu
@@ -62,7 +63,9 @@ all reads within a umi family reported same base
 ### 4.Next, to filter out germline variants, we checked if a found potential variant is in a list of SNPs of this DNA sample as well as in dbSNP. 
 ```
 # Make a file where all the chromosomes relevant to this sample are listed.  Usually it is a head (N lines) of reference file index (Reference.fai). The path to this file should be in SMM_env.bash
-# Remove duplicates in G-file and call germline variants using Haplotype caller Copy SMM_env.bash, SMM_launcher.py, SMM_ht.bash into working directory. Make a text file with pairs: S-file.bam G-file.bam
+#Make a text file with pairs: S-file.bam G-file.bam
+ls /path/*gatk.bam* |awk -F '/' '{print "ln -s " $0 " ./" $3}'
+# Remove duplicates in G-file and call germline variants using Haplotype caller Copy SMM_env.bash, SMM_launcher.py, SMM_ht.bash into working directory. 
 python SMM_launcher.py germline PairsFileName
 # Variant calling
 python SMM_launcher.py vc PairsFileName
