@@ -48,6 +48,7 @@ umi_extractor.bash bamdir S-file.bam chr1
 python SMM_qc.py umi S-file.1.bam.umi
 #awk command to handle a batch of file
 ls /path/*gatk.bam |awk  '{print "sbatch umi_extractor.bash ../3_callvar" $3 " chr1"}'
+for i in $(ls umi/P2*) ;do python2 SMM_qc.py umi $i;done
 
 ### 2.pileup sum for G_lib
 sbatch SMM_pileup.bash bamdir G-file.bam
