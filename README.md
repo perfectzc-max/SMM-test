@@ -79,8 +79,10 @@ python SMM_launcher.py vc PairsFileName
 python SMM_launcher.py merge PairsFileName
 # Get statistics
 python SMM_launcher.py stat PairsFileName
-
 ```
+### 5.Note
+Regarding the analysis parameters, they are optimized for performance and accuracy. You can experiment with them, but be cautious. Lowering the requirement for strand family members from seven to five could significantly increase the number of observed variants, potentially by up to +50%. However, I wouldn't recommend this because these are likely false positives. Adjusting the mapQ parameter might not significantly affect the outcome, as the difference in the number of reads with mapQ 40 and 60 is usually not substantial. What you could consider is reducing the required coverage from 20 to 10-12. If your genotyping sequencing isn't optimal, this change might substantially increase the number of qualified bases, with a moderate effect on observed mutation frequency.
+
 # step0. Envrioment setting
 ```
 python2.7
