@@ -73,6 +73,8 @@ ls /path/*gatk.bam* |awk -F '/' '{print "ln -s " $0 " ./" $3}'
 ls *gatk.bam 
 # Remove duplicates in G-file and call germline variants using Haplotype caller Copy SMM_env.bash, SMM_launcher.py, SMM_ht.bash into working directory. 
 python SMM_launcher.py germline PairsFileName
+# if WGS data
+python SMM_launcher.py germline_noDD PairsFileName
 # Variant calling
 python SMM_launcher.py vc PairsFileName
 # Merge chromosome-specific VCF files
