@@ -11,6 +11,7 @@ INPUT_R1=$1
 INPUT_R2=$2
 SAMPLE_ID=$3
 OUT_DIR=$4
+WGS_DATA=$5
 
 echo -e "\nout:$OUT_DIR \nsample: $SAMPLE_ID \n BULK SAMPLE:$BULK"
 
@@ -118,6 +119,7 @@ echo "====="; echo "5th picard end on"; date
 echo "5th gatk start on"; date; echo "====="
 # 6.1 indel realigner
 # 6.2 SNP recalibration
+
 # Base quality score recalibration (BQSR)
 $GATK_PATH BaseRecalibrator \
 -R $REFERENCE \
