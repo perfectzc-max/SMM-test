@@ -117,9 +117,10 @@ echo "====="; echo "5th picard end on"; date
 
 # 6. gatk
 echo "5th gatk start on"; date; echo "====="
+# 6.0 markduplicate
+
 # 6.1 indel realigner
 # 6.2 SNP recalibration
-
 # Base quality score recalibration (BQSR)
 $GATK_PATH BaseRecalibrator \
 -R $REFERENCE \
